@@ -1,6 +1,7 @@
 package com.netshoes.wishlist.domain;
 
 import com.netshoes.wishlist.domain.exceptions.ProductAlreadyInWishlistException;
+import com.netshoes.wishlist.domain.exceptions.ProductNotInWishlistException;
 import com.netshoes.wishlist.domain.exceptions.WishlistLimitReachedException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Builder
@@ -21,8 +23,19 @@ public class Wishlist {
     private String customerId;
     private List<Product> products;
 
+    public List<Product> getProducts() {
+        if (Objects.isNull(products)) {
+            return List.of();
+        }
+        return products;
+    }
+
     public static Wishlist of(final String customerId, final Product product) {
         return new Wishlist(null, customerId, List.of(product));
+    }
+
+    public boolean isEmpty() {
+        return this.getProducts().isEmpty();
     }
 
     public boolean canAddMoreProducts() {
@@ -52,5 +65,19 @@ public class Wishlist {
                 this.customerId,
                 productUpdate
         );
+    }
+
+    public Wishlist removeProduct(final String productId) {
+        final boolean productRemoved = this.getProducts().removeIf(product -> product.getId().equals(productId));
+
+        if (productRemoved) {
+            return new Wishlist(
+                    this.id,
+                    this.customerId,
+                    products
+            );
+        }
+
+        throw new ProductNotInWishlistException(productId);
     }
 }
