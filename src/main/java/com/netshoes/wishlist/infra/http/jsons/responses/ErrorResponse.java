@@ -1,4 +1,11 @@
 package com.netshoes.wishlist.infra.http.jsons.responses;
 
-public record ErrorResponse() {
+import java.time.LocalDateTime;
+
+public record ErrorResponse(
+        String uuid,
+        String message,
+        String code,
+        LocalDateTime localDateTime
+) {
 }
