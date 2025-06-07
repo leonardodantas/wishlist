@@ -1,10 +1,12 @@
 package com.netshoes.wishlist.infra.http.controllers;
 
+import com.netshoes.wishlist.app.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
 import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
+import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,7 +26,7 @@ public class WishlistController {
 
     private final AddProductToWishlistUseCase addProductToWishlistUseCase;
     private final RemoveProductFromWishlistUseCase removeProductFromWishlistUseCase;
-
+    private final ProductExistsInWishlistUseCase productExistsInWishlistUseCase;
 
     @Operation(
             summary = "Adicionar produto à lista de desejos",
@@ -68,5 +70,28 @@ public class WishlistController {
     @DeleteMapping("{customerId}/products/{productId}")
     public void removeProductFromWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
         removeProductFromWishlistUseCase.execute(customerId, productId);
+    }
+
+    @Operation(
+            summary = "Verificar se produto existe na lista de desejos",
+            description = "Verifica se um produto existe na lista de desejos do cliente especificado pelo ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na lista de desejos do cliente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProductExistResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Wishlist não encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{customerId}/products/{productId}")
+    public ProductExistResponse productExistsInWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
+        final Boolean productExist = productExistsInWishlistUseCase.execute(customerId, productId);
+        return new ProductExistResponse(productExist);
     }
 }
