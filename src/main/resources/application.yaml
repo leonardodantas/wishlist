@@ -1,1 +1,5 @@
-spring.application.name=Netshoes Wishlist
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: "mongodb://localhost:27017/wishlist?serverSelectionTimeoutMS=1000&connectTimeoutMS=1000"
