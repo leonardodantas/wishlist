@@ -1,7 +1,9 @@
 package com.netshoes.wishlist.infra.http.controllers;
 
 import com.netshoes.wishlist.domain.exceptions.ProductAlreadyInWishlistException;
+import com.netshoes.wishlist.domain.exceptions.ProductNotInWishlistException;
 import com.netshoes.wishlist.domain.exceptions.WishlistLimitReachedException;
+import com.netshoes.wishlist.domain.exceptions.WishlistNotFoundException;
 import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +53,15 @@ public class HandlerExceptionsController {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(response);
+    }
+
+    @ExceptionHandler(ProductNotInWishlistException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotInWishlist(final ProductNotInWishlistException ex) {
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(WishlistNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleWishlistNotFound(final WishlistNotFoundException ex) {
+        return ResponseEntity.notFound().build();
     }
 }
