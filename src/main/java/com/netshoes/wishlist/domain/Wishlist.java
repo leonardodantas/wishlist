@@ -47,6 +47,11 @@ public class Wishlist {
                 .anyMatch(p -> p.getId().equals(product.getId()));
     }
 
+    public boolean containsProduct(final String productId) {
+        return products.stream()
+                .anyMatch(p -> productId.equals(p.getId()));
+    }
+
     public Wishlist addProduct(final Product product) {
 
         if (this.containsProduct(product)) {
