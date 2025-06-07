@@ -14,6 +14,19 @@ import java.util.UUID;
 @ControllerAdvice
 public class HandlerExceptionsController {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(final Exception ex) {
+        final ErrorResponse response = new ErrorResponse(
+                UUID.randomUUID().toString(),
+                ex.getMessage(),
+                "INTERNAL_SERVER_ERROR",
+                LocalDateTime.now());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
+    }
+
     @ExceptionHandler(ProductAlreadyInWishlistException.class)
     public ResponseEntity<ErrorResponse> handleProductAlreadyInWishlist(final ProductAlreadyInWishlistException ex) {
         final ErrorResponse response = new ErrorResponse(
