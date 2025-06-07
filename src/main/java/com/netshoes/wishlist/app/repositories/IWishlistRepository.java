@@ -8,4 +8,6 @@ public interface IWishlistRepository {
     Optional<Wishlist> findByCustomerId(final String customerId);
 
     void save(final Wishlist wishlist);
+
+    void deleteById(final String id);
 }

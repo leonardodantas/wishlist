@@ -27,4 +27,9 @@ public class WishListRepository implements IWishlistRepository {
         WishlistDocument document = wishlistMapper.toDocument(wishlist);
         wishListMongoRepository.save(document);
     }
+
+    @Override
+    public void deleteById(final String id) {
+        wishListMongoRepository.deleteById(id);
+    }
 }
