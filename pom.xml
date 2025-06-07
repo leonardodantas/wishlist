@@ -16,7 +16,7 @@
     <url/>
     <properties>
         <java.version>21</java.version>
-        <springdoc-openapi-starter-webmvc-ui>2.2.0</springdoc-openapi-starter-webmvc-ui>
+        <springdoc-openapi-starter-webmvc-ui>2.8.8</springdoc-openapi-starter-webmvc-ui>
         <mapstruct>1.5.5.Final</mapstruct>
     </properties>
     <dependencies>
@@ -86,18 +86,18 @@
                 </configuration>
             </plugin>
             <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <excludes>
-                    <exclude>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                    </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-        </project>
+</project>
