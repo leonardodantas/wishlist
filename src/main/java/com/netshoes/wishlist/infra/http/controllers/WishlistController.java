@@ -2,11 +2,14 @@ package com.netshoes.wishlist.infra.http.controllers;
 
 import com.netshoes.wishlist.app.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
+import com.netshoes.wishlist.app.usecases.FindWishlistByCustomerIdUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
 import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
 import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
+import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
+import com.netshoes.wishlist.infra.mappers.WishlistMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +28,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Wishlist", description = "Endpoints para gerenciar a lista de desejos dos clientes")
 public class WishlistController {
 
+    private final WishlistMapper wishlistMapper;
     private final AddProductToWishlistUseCase addProductToWishlistUseCase;
     private final RemoveProductFromWishlistUseCase removeProductFromWishlistUseCase;
     private final ProductExistsInWishlistUseCase productExistsInWishlistUseCase;
+    private final FindWishlistByCustomerIdUseCase findWishlistByCustomerIdUseCase;
 
     @Operation(
             summary = "Adicionar produto à lista de desejos",
@@ -93,5 +99,27 @@ public class WishlistController {
     public ProductExistResponse productExistsInWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
         final Boolean productExist = productExistsInWishlistUseCase.execute(customerId, productId);
         return new ProductExistResponse(productExist);
+    }
+
+    @Operation(
+            summary = "Obter lista de desejos do cliente",
+            description = "Obtém a lista de desejos do cliente especificado pelo ID. Se a lista não existir, retorna uma lista vazia."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na lista de desejos do cliente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = WishlistResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    })
+    @GetMapping("{customerId}/products")
+    public ResponseEntity<WishlistResponse> getWishlist(@PathVariable final String customerId) {
+        return findWishlistByCustomerIdUseCase.execute(customerId)
+                .map(wishlist -> {
+                    final WishlistResponse response = wishlistMapper.toResponse(wishlist);
+                    return ResponseEntity.ok(response);
+                }).orElseGet(() -> ResponseEntity.ok().build());
     }
 }
