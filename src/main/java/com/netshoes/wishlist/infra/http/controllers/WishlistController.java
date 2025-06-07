@@ -1,7 +1,8 @@
 package com.netshoes.wishlist.infra.http.controllers;
 
-import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
+import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
+import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
 import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class WishlistController {
 
     private final AddProductToWishlistUseCase addProductToWishlistUseCase;
+    private final RemoveProductFromWishlistUseCase removeProductFromWishlistUseCase;
 
 
     @Operation(
@@ -46,5 +48,25 @@ public class WishlistController {
                 .build();
 
         addProductToWishlistUseCase.execute(customerId, product);
+    }
+
+    @Operation(
+            summary = "Remover produto da lista de desejos",
+            description = "Remove um produto da lista de desejos do cliente especificado pelo ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Produto removido com sucesso da lista de desejos do cliente"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado na lista de desejos do cliente ou cliente não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("{customerId}/products/{productId}")
+    public void removeProductFromWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
+        removeProductFromWishlistUseCase.execute(customerId, productId);
     }
 }
