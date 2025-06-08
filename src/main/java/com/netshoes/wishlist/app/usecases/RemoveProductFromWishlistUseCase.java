@@ -19,7 +19,7 @@ public class RemoveProductFromWishlistUseCase {
         final Wishlist wishlistUpdate = wishlist.removeProduct(productId);
 
         if (wishlistUpdate.isEmpty()) {
-            wishlistRepository.deleteById(customerId);
+            wishlistRepository.deleteById(wishlist.getId());
         } else {
             wishlistRepository.save(wishlistUpdate);
         }
