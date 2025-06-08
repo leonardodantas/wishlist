@@ -39,10 +39,18 @@ public final class JsonMock {
     }
 
     public static WishlistDocument getWishlistDocumentExpected() {
-        return JsonUtils.readJson("jsons/documents/document_1_esperado.json", WishlistDocument.class);
+        return JsonUtils.readJson("jsons/documents/document_expected_1.json", WishlistDocument.class);
     }
 
     public static WishlistResponse getWishlistResponseExpected() {
-        return JsonUtils.readJson("jsons/responses/response_1_esperado.json", WishlistResponse.class);
+        return JsonUtils.readJson("jsons/responses/response_expected_1.json", WishlistResponse.class);
+    }
+
+    public static WishlistDocument getWishlistDocument() {
+        return JsonUtils.readJson("jsons/documents/document_1.json", WishlistDocument.class);
+    }
+
+    public static Wishlist getWishlistExpected() {
+        return JsonUtils.readJson("jsons/domains/wishlist_domain_expected_1.json", Wishlist.class);
     }
 }

@@ -33,4 +33,15 @@ class WishlistMapperTest {
 
         assertThat(response).usingRecursiveComparison().isEqualTo(wishlistResponseExpected);
     }
+
+    @Test
+    void shouldMapDocumentToDomain() {
+        final WishlistDocument document = JsonMock.getWishlistDocument();
+
+        final Wishlist wishlist = wishlistMapper.toDomain(document);
+
+        final Wishlist wishlistExpected = JsonMock.getWishlistExpected();
+
+        assertThat(wishlist).usingRecursiveComparison().isEqualTo(wishlistExpected);
+    }
 }
