@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/wishlist")
-@Tag(name = "Wishlist", description = "Endpoints para gerenciar a lista de desejos dos clientes")
+@Tag(name = "Wishlist", description = "Endpoints para gerenciar a wishlist dos clientes")
 public class WishlistController {
 
     private final WishlistMapper wishlistMapper;
@@ -35,18 +35,20 @@ public class WishlistController {
     private final FindWishlistByCustomerIdUseCase findWishlistByCustomerIdUseCase;
 
     @Operation(
-            summary = "Adicionar produto à lista de desejos",
-            description = "Adiciona um produto à lista de desejos do cliente especificado pelo ID."
+            summary = "Adicionar produto à wishlist",
+            description = "Adiciona um produto à wishlist do cliente especificado pelo ID."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produto adicionado com sucesso à lista de desejos do cliente"),
+            @ApiResponse(responseCode = "201", description = "Produto adicionado com sucesso à wishlist do cliente"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "409", description = "Produto já existe na lista de desejos do cliente ou limite de produtos atingido",
+            @ApiResponse(responseCode = "409", description = "Produto já existe na wishlist do cliente ou limite de produtos atingido",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("{customerId}/products")
     @ResponseStatus(HttpStatus.CREATED)
@@ -59,18 +61,20 @@ public class WishlistController {
     }
 
     @Operation(
-            summary = "Remover produto da lista de desejos",
-            description = "Remove um produto da lista de desejos do cliente especificado pelo ID."
+            summary = "Remover produto da wishlist",
+            description = "Remove um produto da wishlist do cliente especificado pelo ID."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Produto removido com sucesso da lista de desejos do cliente"),
+            @ApiResponse(responseCode = "204", description = "Produto removido com sucesso da wishlist do cliente"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Produto não encontrado na lista de desejos do cliente ou cliente não encontrado",
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado na wishlist do cliente ou cliente não encontrado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{customerId}/products/{productId}")
@@ -79,11 +83,11 @@ public class WishlistController {
     }
 
     @Operation(
-            summary = "Verificar se produto existe na lista de desejos",
-            description = "Verifica se um produto existe na lista de desejos do cliente especificado pelo ID."
+            summary = "Verificar se produto existe na wishlist",
+            description = "Verifica se um produto existe na wishlist do cliente especificado pelo ID."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na lista de desejos do cliente",
+            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na wishlist do cliente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProductExistResponse.class))),
             @ApiResponse(responseCode = "400", description = "Requisição inválida",
@@ -92,7 +96,9 @@ public class WishlistController {
             @ApiResponse(responseCode = "404", description = "Wishlist não encontrada",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{customerId}/products/{productId}")
@@ -102,17 +108,19 @@ public class WishlistController {
     }
 
     @Operation(
-            summary = "Obter lista de desejos do cliente",
-            description = "Obtém a lista de desejos do cliente especificado pelo ID. Se a lista não existir, retorna uma lista vazia."
+            summary = "Obter wishlist do cliente",
+            description = "Obtém a wishlist do cliente especificado pelo ID. Se a lista não existir, retorna uma lista vazia."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na lista de desejos do cliente",
+            @ApiResponse(responseCode = "200", description = "Produto encontrado ou não na wishlist do cliente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = WishlistResponse.class))),
             @ApiResponse(responseCode = "400", description = "Requisição inválida",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("{customerId}/products")
     public ResponseEntity<WishlistResponse> getWishlist(@PathVariable final String customerId) {
