@@ -114,6 +114,15 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/netshoes/wishlist/config/**</exclude>
+                                <exclude>com/netshoes/wishlist/Application.class</exclude>
+                                <exclude>**/*Exception.class</exclude>
+                                <exclude>**/*MapperImpl.class</exclude>
+                                <exclude>**/jsons/**</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>check</id>
