@@ -1,4 +1,4 @@
-package com.netshoes.wishlist.infra.database.documents.repositories;
+package com.netshoes.wishlist.infra.database.repositories;
 
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;

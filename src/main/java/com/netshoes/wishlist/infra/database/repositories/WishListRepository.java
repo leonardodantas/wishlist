@@ -1,4 +1,4 @@
-package com.netshoes.wishlist.infra.database.documents.repositories;
+package com.netshoes.wishlist.infra.database.repositories;
 
 import com.netshoes.wishlist.app.repositories.IWishlistRepository;
 import com.netshoes.wishlist.domain.Wishlist;
