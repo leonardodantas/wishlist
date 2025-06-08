@@ -1,0 +1,12 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "customerId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "products": [
+    {
+      "id": "dcf8d489-b727-4307-8037-85ffd989797a"
+    },
+    {
+      "id": "e2f3d4c5-b6a7-8901-abcd-ef1234567890"
+    }
+  ]
+}
