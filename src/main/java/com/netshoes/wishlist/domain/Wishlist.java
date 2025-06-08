@@ -3,10 +3,7 @@ package com.netshoes.wishlist.domain;
 import com.netshoes.wishlist.domain.exceptions.ProductAlreadyInWishlistException;
 import com.netshoes.wishlist.domain.exceptions.ProductNotInWishlistException;
 import com.netshoes.wishlist.domain.exceptions.WishlistLimitReachedException;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.Objects;
 
 @Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Wishlist {
 
