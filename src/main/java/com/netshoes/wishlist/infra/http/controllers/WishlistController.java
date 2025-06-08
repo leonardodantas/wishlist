@@ -1,6 +1,6 @@
 package com.netshoes.wishlist.infra.http.controllers;
 
-import com.netshoes.wishlist.app.ProductExistsInWishlistUseCase;
+import com.netshoes.wishlist.app.usecases.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.FindWishlistByCustomerIdUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;

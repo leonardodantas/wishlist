@@ -1,4 +1,4 @@
-package com.netshoes.wishlist.app;
+package com.netshoes.wishlist.app.usecases;
 
 import com.netshoes.wishlist.app.repositories.IWishlistRepository;
 import com.netshoes.wishlist.domain.Wishlist;
