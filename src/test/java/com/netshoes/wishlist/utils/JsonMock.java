@@ -20,6 +20,10 @@ public final class JsonMock {
         return JsonUtils.readJson("jsons/domains/wishlist_valid_2.json", Wishlist.class);
     }
 
+    public static Wishlist getWishlistWith19Products() {
+        return JsonUtils.readJson("jsons/domains/wishlist_valid_with_19_products.json", Wishlist.class);
+    }
+
     public static Wishlist getWishlistWith20Products() {
         return JsonUtils.readJson("jsons/domains/wishlist_valid_with_20_products.json", Wishlist.class);
     }

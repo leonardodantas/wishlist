@@ -95,4 +95,21 @@ class AddProductToWishlistUseCaseTest {
         verify(wishlistRepository, never()).save(any(Wishlist.class));
     }
 
+    @Test
+    void shouldAddLastProductToExistingWishlist() {
+
+        final Wishlist wishlist = JsonMock.getWishlistWith19Products();
+        when(wishlistRepository.findByCustomerId(CUSTOMER_ID))
+                .thenReturn(Optional.of(wishlist));
+
+        final Product product = JsonMock.getProductValid_1();
+        addProductToWishlistUseCase.execute(CUSTOMER_ID, product);
+
+        verify(wishlistRepository).findByCustomerId(CUSTOMER_ID);
+        verify(wishlistRepository).save(wishlistArgumentCaptor.capture());
+
+        final Wishlist wishlistSave = wishlistArgumentCaptor.getValue();
+        assertEquals(20, wishlistSave.getProducts().size());
+    }
+
 }
