@@ -1,16 +1,16 @@
 package com.netshoes.wishlist.infra.database.documents;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Document(collection = "wishlists")
 public class WishlistDocument {
 
@@ -19,6 +19,5 @@ public class WishlistDocument {
     @Indexed(unique = true)
     private String customerId;
     private List<ProductDocument> products;
-    private BigDecimal totalPrice;
 
 }

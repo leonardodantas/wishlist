@@ -23,7 +23,7 @@ public class Wishlist {
 
     public List<Product> getProducts() {
         if (Objects.isNull(products)) {
-            return List.of();
+            return new ArrayList<>();
         }
         return products;
     }

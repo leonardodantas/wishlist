@@ -2,6 +2,8 @@ package com.netshoes.wishlist.utils;
 
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.domain.Wishlist;
+import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
+import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -20,11 +22,27 @@ public final class JsonMock {
         return JsonUtils.readJson("jsons/domains/wishlist_valid_2.json", Wishlist.class);
     }
 
+    public static Wishlist getWishlistWith1Products() {
+        return JsonUtils.readJson("jsons/domains/wishlist_valid_with_1_products.json", Wishlist.class);
+    }
+
     public static Wishlist getWishlistWith19Products() {
         return JsonUtils.readJson("jsons/domains/wishlist_valid_with_19_products.json", Wishlist.class);
     }
 
     public static Wishlist getWishlistWith20Products() {
         return JsonUtils.readJson("jsons/domains/wishlist_valid_with_20_products.json", Wishlist.class);
+    }
+
+    public static Wishlist getWishlistWithoutProducts() {
+        return JsonUtils.readJson("jsons/domains/wishlist_valid_without_products.json", Wishlist.class);
+    }
+
+    public static WishlistDocument getWishlistDocumentExpected() {
+        return JsonUtils.readJson("jsons/documents/document_1_esperado.json", WishlistDocument.class);
+    }
+
+    public static WishlistResponse getWishlistResponseExpected() {
+        return JsonUtils.readJson("jsons/responses/response_1_esperado.json", WishlistResponse.class);
     }
 }
