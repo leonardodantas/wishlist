@@ -1,8 +1,8 @@
 package com.netshoes.wishlist.infra.http.controllers;
 
-import com.netshoes.wishlist.app.usecases.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.FindWishlistByCustomerIdUseCase;
+import com.netshoes.wishlist.app.usecases.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
@@ -128,6 +128,9 @@ public class WishlistController {
                 .map(wishlist -> {
                     final WishlistResponse response = wishlistMapper.toResponse(wishlist);
                     return ResponseEntity.ok(response);
-                }).orElseGet(() -> ResponseEntity.ok().build());
+                }).orElseGet(() -> {
+                    WishlistResponse response = WishlistResponse.of(customerId);
+                    return ResponseEntity.ok(response);
+                });
     }
 }
