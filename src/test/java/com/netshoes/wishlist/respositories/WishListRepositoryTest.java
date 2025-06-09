@@ -4,7 +4,7 @@ import com.netshoes.wishlist.domain.Wishlist;
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
 import com.netshoes.wishlist.infra.database.repositories.WishListMongoRepository;
 import com.netshoes.wishlist.infra.database.repositories.WishListRepository;
-import com.netshoes.wishlist.infra.mappers.WishlistMapper;
+import com.netshoes.wishlist.infra.mappers.WishlistInfraMapper;
 import com.netshoes.wishlist.utils.JsonMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class WishListRepositoryTest {
     private static final String CUSTOMER_ID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
 
     @Spy
-    private WishlistMapper wishlistMapper = Mappers.getMapper(WishlistMapper.class);
+    private WishlistInfraMapper wishlistInfraMapper = Mappers.getMapper(WishlistInfraMapper.class);
     @Mock
     private WishListMongoRepository wishListMongoRepository;
     @InjectMocks
@@ -56,7 +56,7 @@ public class WishListRepositoryTest {
     void shouldSaveWishlist() {
         final Wishlist wishlist = JsonMock.getWishlistValid_1();
         final WishlistDocument document = JsonMock.getWishlistDocumentExpected();
-        when(wishlistMapper.toDocument(wishlist)).thenReturn(document);
+        when(wishlistInfraMapper.toDocument(wishlist)).thenReturn(document);
 
         wishListRepository.save(wishlist);
 

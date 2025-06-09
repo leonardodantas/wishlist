@@ -3,8 +3,8 @@ package com.netshoes.wishlist.utils;
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.domain.Wishlist;
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
-import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
-import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
+import com.netshoes.wishlist.api.jsons.requests.ProductRequest;
+import com.netshoes.wishlist.api.jsons.responses.WishlistResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.netshoes.wishlist.infra.http.jsons.requests;
+package com.netshoes.wishlist.api.jsons.requests;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -3,7 +3,7 @@ package com.netshoes.wishlist.infra.database.repositories;
 import com.netshoes.wishlist.app.repositories.IWishlistRepository;
 import com.netshoes.wishlist.domain.Wishlist;
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
-import com.netshoes.wishlist.infra.mappers.WishlistMapper;
+import com.netshoes.wishlist.infra.mappers.WishlistInfraMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,18 +13,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class WishListRepository implements IWishlistRepository {
 
-    private final WishlistMapper wishlistMapper;
+    private final WishlistInfraMapper wishlistInfraMapper;
     private final WishListMongoRepository wishListMongoRepository;
 
     @Override
     public Optional<Wishlist> findByCustomerId(final String customerId) {
         return wishListMongoRepository.findByCustomerId(customerId)
-                .map(wishlistMapper::toDomain);
+                .map(wishlistInfraMapper::toDomain);
     }
 
     @Override
     public void save(final Wishlist wishlist) {
-        final WishlistDocument document = wishlistMapper.toDocument(wishlist);
+        final WishlistDocument document = wishlistInfraMapper.toDocument(wishlist);
         wishListMongoRepository.save(document);
     }
 
