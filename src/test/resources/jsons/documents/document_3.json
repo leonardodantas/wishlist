@@ -1,0 +1,63 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "customerId": "84c8b0f-4d2e-4a1b-9c3f-5d6e7f8a9b0c",
+  "products": [
+    {
+      "id": "dcf8d489-b727-4307-8037-85ffd989797"
+    },
+    {
+      "id": "3a5f7b99-9a4b-4f0f-a0ff-ec2331c9c4d6"
+    },
+    {
+      "id": "b2d15e3a-e1c1-40c0-b9a2-70e15d3f6c4d"
+    },
+    {
+      "id": "71a8c73e-0fc0-4d15-a9db-5b9ef470e9ef"
+    },
+    {
+      "id": "c77a3bd6-23ce-4312-a0b9-00e5d5ad7df0"
+    },
+    {
+      "id": "f99a0e89-4593-4d44-a849-fd7e3474e92c"
+    },
+    {
+      "id": "9a1b3dc7-c9a1-4a11-b8e3-b216d4e011aa"
+    },
+    {
+      "id": "42e65a4f-859c-42d2-bf4e-5c9f93d34bd0"
+    },
+    {
+      "id": "a8c77d09-2f25-49e1-a617-c68a60a5d6f5"
+    },
+    {
+      "id": "04c64e2b-63b2-4dd2-8a5b-2fbc6789eac1"
+    },
+    {
+      "id": "c8b6c738-4c9d-42b0-b749-77c3ae03456d"
+    },
+    {
+      "id": "e1f4aef6-1e9f-4e84-bc71-7cf1e012d2cb"
+    },
+    {
+      "id": "bb79d53b-c95c-4e1a-9274-2f812789d1e2"
+    },
+    {
+      "id": "6b4eae9b-9673-4a87-bd12-c1cb99db066b"
+    },
+    {
+      "id": "f243a891-25d1-4ee1-b54c-802365d0d8cf"
+    },
+    {
+      "id": "5e7fa215-9cb8-4c8a-9fd7-762f0a780df6"
+    },
+    {
+      "id": "0bc2db8b-c1ff-4dd3-8e75-0df9be68de13"
+    },
+    {
+      "id": "d6ed1a53-6c43-4457-b63c-fb1c9e984fa2"
+    },
+    {
+      "id": "87332cf1-c4de-4a59-9aaf-1ad9db387bd8"
+    }
+  ]
+}

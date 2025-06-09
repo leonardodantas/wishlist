@@ -34,7 +34,7 @@ public class WishListRepositoryTest {
 
     @Test
     void shouldFindByCustomerId() {
-        final WishlistDocument document = JsonMock.getWishlistDocument();
+        final WishlistDocument document = JsonMock.getWishlistDocument_1();
         when(wishListMongoRepository.findByCustomerId(CUSTOMER_ID))
                 .thenReturn(Optional.of(document));
 

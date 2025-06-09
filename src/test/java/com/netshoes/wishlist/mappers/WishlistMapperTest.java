@@ -36,7 +36,7 @@ class WishlistMapperTest {
 
     @Test
     void shouldMapDocumentToDomain() {
-        final WishlistDocument document = JsonMock.getWishlistDocument();
+        final WishlistDocument document = JsonMock.getWishlistDocument_1();
 
         final Wishlist wishlist = wishlistMapper.toDomain(document);
 

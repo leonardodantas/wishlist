@@ -129,7 +129,7 @@ public class WishlistController {
                     final WishlistResponse response = wishlistMapper.toResponse(wishlist);
                     return ResponseEntity.ok(response);
                 }).orElseGet(() -> {
-                    WishlistResponse response = WishlistResponse.of(customerId);
+                    final WishlistResponse response = WishlistResponse.of(customerId);
                     return ResponseEntity.ok(response);
                 });
     }
