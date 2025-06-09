@@ -1,4 +1,4 @@
-package com.netshoes.wishlist.infra.http.jsons.responses;
+package com.netshoes.wishlist.api.jsons.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

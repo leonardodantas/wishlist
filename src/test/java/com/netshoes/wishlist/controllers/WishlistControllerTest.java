@@ -1,17 +1,18 @@
 package com.netshoes.wishlist.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netshoes.wishlist.api.controllers.WishlistController;
+import com.netshoes.wishlist.api.jsons.requests.ProductRequest;
+import com.netshoes.wishlist.api.jsons.responses.ProductExistResponse;
+import com.netshoes.wishlist.api.jsons.responses.WishlistResponse;
+import com.netshoes.wishlist.api.mappers.WishlistApiMapper;
+import com.netshoes.wishlist.api.mappers.WishlistApiMapperImpl;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.FindWishlistByCustomerIdUseCase;
 import com.netshoes.wishlist.app.usecases.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
 import com.netshoes.wishlist.domain.Product;
 import com.netshoes.wishlist.domain.Wishlist;
-import com.netshoes.wishlist.infra.http.controllers.WishlistController;
-import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
-import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
-import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
-import com.netshoes.wishlist.infra.mappers.WishlistMapperImpl;
 import com.netshoes.wishlist.utils.JsonMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(WishlistController.class)
-@Import(WishlistMapperImpl.class)
+@Import(WishlistApiMapperImpl.class)
 public class WishlistControllerTest {
 
     private static final String CUSTOMER_ID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -48,9 +49,6 @@ public class WishlistControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-//    @MockitoBean
-//    private WishlistMapper wishlistMapper;
 
     @MockitoBean
     private AddProductToWishlistUseCase addProductToWishlistUseCase;

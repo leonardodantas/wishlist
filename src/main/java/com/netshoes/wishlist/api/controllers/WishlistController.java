@@ -1,15 +1,15 @@
-package com.netshoes.wishlist.infra.http.controllers;
+package com.netshoes.wishlist.api.controllers;
 
+import com.netshoes.wishlist.api.jsons.requests.ProductRequest;
+import com.netshoes.wishlist.api.jsons.responses.ErrorResponse;
+import com.netshoes.wishlist.api.jsons.responses.ProductExistResponse;
+import com.netshoes.wishlist.api.jsons.responses.WishlistResponse;
+import com.netshoes.wishlist.api.mappers.WishlistApiMapper;
 import com.netshoes.wishlist.app.usecases.AddProductToWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.FindWishlistByCustomerIdUseCase;
 import com.netshoes.wishlist.app.usecases.ProductExistsInWishlistUseCase;
 import com.netshoes.wishlist.app.usecases.RemoveProductFromWishlistUseCase;
 import com.netshoes.wishlist.domain.Product;
-import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
-import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
-import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
-import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
-import com.netshoes.wishlist.infra.mappers.WishlistMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Wishlist", description = "Endpoints para gerenciar a wishlist dos clientes")
 public class WishlistController {
 
-    private final WishlistMapper wishlistMapper;
+    private final WishlistApiMapper wishlistApiMapper;
     private final AddProductToWishlistUseCase addProductToWishlistUseCase;
     private final RemoveProductFromWishlistUseCase removeProductFromWishlistUseCase;
     private final ProductExistsInWishlistUseCase productExistsInWishlistUseCase;
@@ -133,7 +133,7 @@ public class WishlistController {
         log.info("Obtendo wishlist do cliente: {}", customerId);
         return findWishlistByCustomerIdUseCase.execute(customerId)
                 .map(wishlist -> {
-                    final WishlistResponse response = wishlistMapper.toResponse(wishlist);
+                    final WishlistResponse response = wishlistApiMapper.toResponse(wishlist);
                     log.info("Wishlist do cliente {} obtida com sucesso", customerId);
                     return ResponseEntity.ok(response);
                 }).orElseGet(() -> {

@@ -1,10 +1,10 @@
 package com.netshoes.wishlist.integration;
 
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
-import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
-import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
-import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
-import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
+import com.netshoes.wishlist.api.jsons.requests.ProductRequest;
+import com.netshoes.wishlist.api.jsons.responses.ErrorResponse;
+import com.netshoes.wishlist.api.jsons.responses.ProductExistResponse;
+import com.netshoes.wishlist.api.jsons.responses.WishlistResponse;
 import com.netshoes.wishlist.utils.JsonMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
