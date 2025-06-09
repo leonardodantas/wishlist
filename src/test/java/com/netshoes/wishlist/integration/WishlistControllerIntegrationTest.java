@@ -3,6 +3,8 @@ package com.netshoes.wishlist.integration;
 import com.netshoes.wishlist.infra.database.documents.WishlistDocument;
 import com.netshoes.wishlist.infra.http.jsons.requests.ProductRequest;
 import com.netshoes.wishlist.infra.http.jsons.responses.ErrorResponse;
+import com.netshoes.wishlist.infra.http.jsons.responses.ProductExistResponse;
+import com.netshoes.wishlist.infra.http.jsons.responses.WishlistResponse;
 import com.netshoes.wishlist.utils.JsonMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
+        assertNotNull(document);
         assertEquals(CUSTOMER_ID, document.getCustomerId());
         assertEquals(1, document.getProducts().size());
 
@@ -86,6 +89,7 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
+        assertNotNull(document);
         assertFalse(document.getProducts().stream().anyMatch(d -> d.getId().equals(request.id())));
 
         mongoTemplate.remove(documents);
@@ -104,6 +108,7 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
+        assertNotNull(document);
         assertTrue(document.getProducts().stream().anyMatch(d -> d.getId().equals(request.id())));
 
         mongoTemplate.remove(documents);
@@ -124,6 +129,7 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
+        assertNotNull(document);
         assertFalse(document.getProducts().stream().anyMatch(d -> d.getId().equals(PRODUCT_ID)));
 
         mongoTemplate.remove(documents);
@@ -164,6 +170,7 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
+        assertNotNull(document);
         assertFalse(document.getProducts().stream().anyMatch(d -> d.getId().equals(PRODUCT_ID)));
 
         mongoTemplate.remove(documents);
@@ -185,6 +192,94 @@ public class WishlistControllerIntegrationTest extends MongoContainerTest {
 
         final WishlistDocument document = mongoTemplate.findOne(Query.query(Criteria.where("customerId").is(CUSTOMER_ID)), WishlistDocument.class);
         assertNull(document);
+    }
+
+    @Test
+    void shouldReturnProductExistsTrueInWishlist() {
+
+        final WishlistDocument documents = JsonMock.getWishlistDocument_2();
+        mongoTemplate.save(documents);
+
+        final Map<String, String> params = new HashMap<>();
+        params.put("customerId", CUSTOMER_ID);
+        params.put("productId", PRODUCT_ID);
+
+        final ResponseEntity<ProductExistResponse> response = restTemplate.getForEntity("/api/v1/wishlist/{customerId}/products/{productId}", ProductExistResponse.class, params);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().exists());
+
+        mongoTemplate.remove(documents);
+    }
+
+    @Test
+    void shouldReturnProductExistsFalseInWishlist() {
+
+        final WishlistDocument documents = JsonMock.getWishlistDocument_3();
+        mongoTemplate.save(documents);
+
+        final Map<String, String> params = new HashMap<>();
+        params.put("customerId", CUSTOMER_ID);
+        params.put("productId", PRODUCT_ID);
+
+        final ResponseEntity<ProductExistResponse> response = restTemplate.getForEntity("/api/v1/wishlist/{customerId}/products/{productId}", ProductExistResponse.class, params);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().exists());
+
+        mongoTemplate.remove(documents);
+    }
+
+    @Test
+    void shouldReturnNotFoundWhereVerifyProductExistWithCustomerWithoutWishlist() {
+
+        final WishlistDocument documents = JsonMock.getWishlistDocument_1();
+        mongoTemplate.save(documents);
+
+        final Map<String, String> params = new HashMap<>();
+        params.put("customerId", CUSTOMER_ID);
+        params.put("productId", PRODUCT_ID);
+
+        final ResponseEntity<Void> response = restTemplate.getForEntity("/api/v1/wishlist/{customerId}/products/{productId}", Void.class, params);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        mongoTemplate.remove(documents);
+    }
+
+    @Test
+    void shouldReturnWishlistResponseWithEmptyProducts() {
+
+        final WishlistDocument documents = JsonMock.getWishlistDocument_1();
+        mongoTemplate.save(documents);
+
+        final ResponseEntity<WishlistResponse> response = restTemplate.getForEntity("/api/v1/wishlist/{customerId}/products", WishlistResponse.class, CUSTOMER_ID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(CUSTOMER_ID, response.getBody().customerId());
+        assertTrue(response.getBody().products().isEmpty());
+
+        mongoTemplate.remove(documents);
+    }
+
+    @Test
+    void shouldReturnWishlistResponseWithProducts() {
+
+        final WishlistDocument documents = JsonMock.getWishlistDocument_2();
+        mongoTemplate.save(documents);
+
+        final ResponseEntity<WishlistResponse> response = restTemplate.getForEntity("/api/v1/wishlist/{customerId}/products", WishlistResponse.class, CUSTOMER_ID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(CUSTOMER_ID, response.getBody().customerId());
+        assertFalse(response.getBody().products().isEmpty());
+        assertEquals(11, response.getBody().products().size());
+
+        mongoTemplate.remove(documents);
     }
 
 }
