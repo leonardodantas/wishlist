@@ -5,6 +5,7 @@ import com.netshoes.wishlist.domain.exceptions.ProductNotInWishlistException;
 import com.netshoes.wishlist.domain.exceptions.WishlistLimitReachedException;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,8 @@ public class Wishlist {
     private String id;
     private String customerId;
     private List<Product> products;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     public List<Product> getProducts() {
         if (Objects.isNull(products)) {
@@ -29,7 +32,7 @@ public class Wishlist {
     }
 
     public static Wishlist of(final String customerId, final Product product) {
-        return new Wishlist(null, customerId, List.of(product));
+        return new Wishlist(null, customerId, List.of(product), null, null);
     }
 
     public boolean isEmpty() {
@@ -66,7 +69,9 @@ public class Wishlist {
         return new Wishlist(
                 this.id,
                 this.customerId,
-                productUpdate
+                productUpdate,
+                this.createdAt,
+                this.updatedAt
         );
     }
 
@@ -77,7 +82,9 @@ public class Wishlist {
             return new Wishlist(
                     this.id,
                     this.customerId,
-                    products
+                    products,
+                    this.createdAt,
+                    this.updatedAt
             );
         }
 

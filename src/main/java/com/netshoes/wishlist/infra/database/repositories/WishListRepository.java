@@ -24,7 +24,7 @@ public class WishListRepository implements IWishlistRepository {
 
     @Override
     public void save(final Wishlist wishlist) {
-        WishlistDocument document = wishlistMapper.toDocument(wishlist);
+        final WishlistDocument document = wishlistMapper.toDocument(wishlist);
         wishListMongoRepository.save(document);
     }
 
