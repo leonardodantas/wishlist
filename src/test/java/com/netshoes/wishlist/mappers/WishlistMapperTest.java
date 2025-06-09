@@ -29,7 +29,7 @@ class WishlistMapperTest {
         final Wishlist wishlist = JsonMock.getWishlistWith20Products();
         final WishlistResponse response = wishlistMapper.toResponse(wishlist);
 
-        final WishlistResponse wishlistResponseExpected = JsonMock.getWishlistResponseExpected();
+        final WishlistResponse wishlistResponseExpected = JsonMock.getWishlistResponseExpected_1();
 
         assertThat(response).usingRecursiveComparison().isEqualTo(wishlistResponseExpected);
     }
