@@ -101,6 +101,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/netshoes/wishlist/config/**</exclude>
+                        <exclude>com/netshoes/wishlist/Application.class</exclude>
+                        <exclude>**/*Exception.class</exclude>
+                        <exclude>**/*MapperImpl.class</exclude>
+                        <exclude>**/*HandlerExceptionsController.class</exclude>
+                        <exclude>**/jsons/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -114,15 +124,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>com/netshoes/wishlist/config/**</exclude>
-                                <exclude>com/netshoes/wishlist/Application.class</exclude>
-                                <exclude>**/*Exception.class</exclude>
-                                <exclude>**/*MapperImpl.class</exclude>
-                                <exclude>**/jsons/**</exclude>
-                            </excludes>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>check</id>
@@ -136,19 +137,19 @@
                                     <element>BUNDLE</element>
                                     <limits>
                                         <limit>
-                                            <counter>INSTRUCTION</counter>
+                                            <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>1.0</minimum>
+                                            <minimum>1.00</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>1.0</minimum>
+                                            <minimum>1.00</minimum>
                                         </limit>
                                         <limit>
-                                            <counter>LINE</counter>
+                                            <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>1.0</minimum>
+                                            <minimum>1.00</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
