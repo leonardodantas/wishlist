@@ -18,10 +18,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/wishlist")
@@ -53,6 +55,7 @@ public class WishlistController {
     @PostMapping("{customerId}/products")
     @ResponseStatus(HttpStatus.CREATED)
     public void addProductToWishlist(@PathVariable final String customerId, @Valid @RequestBody final ProductRequest request) {
+        log.info("Adicionando produto à wishlist do cliente: {}", customerId);
         final Product product = Product.builder()
                 .id(request.id())
                 .build();
@@ -79,6 +82,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{customerId}/products/{productId}")
     public void removeProductFromWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
+        log.info("Removendo produto da wishlist do cliente: {}", customerId);
         removeProductFromWishlistUseCase.execute(customerId, productId);
     }
 
@@ -103,7 +107,9 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{customerId}/products/{productId}")
     public ProductExistResponse productExistsInWishlist(@PathVariable final String customerId, @PathVariable final String productId) {
+        log.info("Verificando se o produto {} existe na wishlist do cliente: {}", productId, customerId);
         final Boolean productExist = productExistsInWishlistUseCase.execute(customerId, productId);
+        log.info("Produto {} existe na wishlist do cliente {}? {}", productId, customerId, productExist);
         return new ProductExistResponse(productExist);
     }
 
@@ -124,12 +130,15 @@ public class WishlistController {
     })
     @GetMapping("{customerId}/products")
     public ResponseEntity<WishlistResponse> getWishlist(@PathVariable final String customerId) {
+        log.info("Obtendo wishlist do cliente: {}", customerId);
         return findWishlistByCustomerIdUseCase.execute(customerId)
                 .map(wishlist -> {
                     final WishlistResponse response = wishlistMapper.toResponse(wishlist);
+                    log.info("Wishlist do cliente {} obtida com sucesso", customerId);
                     return ResponseEntity.ok(response);
                 }).orElseGet(() -> {
                     final WishlistResponse response = WishlistResponse.of(customerId);
+                    log.info("Wishlist do cliente {} não encontrada, retornando lista vazia", customerId);
                     return ResponseEntity.ok(response);
                 });
     }
