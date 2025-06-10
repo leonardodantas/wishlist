@@ -338,7 +338,7 @@ public Wishlist addProduct(final Product product) {
 ### Dominios Anemicos e Dominios Inteligentes
 Tambem optei pela utilização de dominios inteligentes, diferente de dominios anemicos que existem apenas para transportar dados, os inteligentes conseguem transportar dados e encapsular comportamentos. Quando utilizamos modelos inteligentes estamos fazendo uso de principios do DDD. Em um projeto com modelos anemicos costumamos concentrar todas a logica em nosso use cases ou services, ja em dominios inteligentes usamos a camada de use case ou service apenas para orquestrar as chamadas. Ambas abordagens podem ser utilizadas, não sendo considerada uma certa ou a outra errada. A seguir um pequeno exemplo de dominio inteligente:
 
-```
+```java
 public Wishlist removeProduct(final String productId) {
         final boolean productRemoved = this.getProducts().removeIf(product -> product.getId().equals(productId));
 
