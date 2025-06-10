@@ -4,7 +4,7 @@ Microserviço responsavel por gerenciar uma Wishlist(Lista de desejos do cliente
 
 ### Desafio
 
-O objetivo é o desenvolvimento de serviço HTTP resolvendo a funcionalidade de Wishlist do cliente. Esse serviço deve atenderos seguintes requisitos:
+O objetivo é o desenvolvimento de serviço HTTP resolvendo a funcionalidade de Wishlist do cliente. Esse serviço deve atender os seguintes requisitos:
 - Adicionar um produto na Wishlist do cliente;
 - Remover um produto da Wishlist do cliente;
 - Consultar todos os produtos da Wishlist do cliente;
@@ -39,7 +39,7 @@ Após iniciar os contêineres, a interface do Mongo Express pode ser acessada em
 
 ```bash
 # Clone este repositório
-git clone https://github.com/leonardodantas/app-resilience-java.git
+git clone https://github.com/leonardodantas/wishlist.git
 
 # Tenha o docker compose instalando, acesse a pasta raiz do projeto e execute o seguinte comando
 docker-compose up --build
@@ -51,7 +51,7 @@ docker-compose up --build
 # Inicie a aplicação com uma IDE
 
 #Acesse o seguinte endereço no navegador
-http://localhost:8090/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 ```
 ---
 
@@ -81,7 +81,7 @@ Adicionar um produto a wishlist do cliente.
 
 | Campo             | Tipo     | Obrigatório | Validação                      | Descrição                                                                 |
 |-------------------|----------|-------------|--------------------------------|---------------------------------------------------------------------------|
-| `id`            | `string` | Sim         | `@NotBlank`                    | Id do cliente.                                                 |
+| `id`            | `string` | Sim         | `@NotBlank`                    | Id do produto.                                                 |
 
 #### Regras de Negócio
 
@@ -145,7 +145,7 @@ Antes de remover o produto, o sistema realiza as seguintes validações:
 - Se o cliente não possuir wishlist a exceção WishlistNotFoundException é lançada.
 - Se o produto não existe na wishlist a exceção ProductNotInWishlistException é lançada.
 - Caso a lista de produtos do cliente fique vazia após a remoção, então a wishlist é removida.
-- Caso a lista de produtos do cliente não vazia após a remoção, apenas o produto é removido.
+- Caso a lista de produtos do cliente não fique vazia após a remoção, apenas o produto é removido.
 
 #### Resposta
 
@@ -267,7 +267,7 @@ curl -X 'GET' \
 
 #### Observações
 
-- Aqui sempre vamos devolver um 200 para o cliente, seja com uma lista vazia de produtos(caso ela nao possuir nenhuma) e com a lista populada.
+- Aqui sempre vamos devolver um 200 para o cliente, seja com uma lista vazia de produtos(caso ela nao possuir nenhum produto) ou com a lista populada.
 - Devido ao limite de 20 items eu não utilizei paginação.
 
 
@@ -284,9 +284,10 @@ Adotei alguns principios de arquitetura limpa para a solução do desafio. As ca
 - **CONFIG**: Camada existente para armazenar todas as classes de configurações, como swagger, auditoria e afins.
 
 A seguir uma imagem para representar a arquitetura adotada: <br>
-![Untitled Diagram-Page-2](https://github.com/user-attachments/assets/e615d3e2-5494-4196-b28d-fa5da478e00c)
+![Untitled Diagram-Page-2](https://github.com/user-attachments/assets/ad444a7c-239d-4ea7-a4c7-c2a9fbbf6383)
 
-Apesar da adoção da Clean Architecture, uma estrutura mais simples também seria válida, especialmente em projetos onde a rapidez na entrega e a facilidade de manutenção são mais relevantes que a robustez arquitetural.
+
+Apesar da adoção da Clean Architecture, uma estrutura mais simples também seria válida, especialmente em projetos onde a rapidez na entrega e a facilidade de manutenção são mais relevantes que a arquitetura.
 
 ### Orientação a Objetos e Programação Funcional
 Durante o desenvolvimento, utilizei conceitos de ambos os paradigmas (orientação a objetos e programação funcional) de forma complementar.
@@ -308,7 +309,7 @@ Encapsulamento, ao proteger o estado interno das entidades e expor apenas métod
 Já no paradigma funcional, adotei o uso de objetos imutáveis sempre que possível, priorizando a criação de novas instâncias em vez da modificação do estado de objetos existentes.
 Além disso, utilizei recursos como streams e expressões lambda, que tornam o código mais declarativo e expressivo.
 
-O exemplo abaixo demonstra a aplicação prática desse conceito, onde um novo objeto Wishlist é criado com os dados atualizados, mantendo a imutabilidade da instância original:
+O exemplo abaixo demonstra a aplicação desse conceito, onde um novo objeto Wishlist é criado com os dados atualizados, mantendo a imutabilidade da instância original:
 
 ```java
 public Wishlist addProduct(final Product product) {
@@ -375,7 +376,7 @@ Por fim, o DIP (Dependency Inversion Principle) foi aplicado ao fazer com que os
 
 ### Outros Detalhes
 - Foi necessário definir um tamanho máximo para a lista de produtos da wishlist. Considerando o contexto do desafio, o valor fixo de 20 itens está diretamente ligado à regra de negócio e não deve ser alterado dinamicamente.
-Porem, caso essa limitação precise ser flexibilizada futuramente, o valor pode ser adicionado em um arquivo de configuração e injetado no use case via @Value e repassado ao domínio.
+Porem, caso essa limitação precise ser flexibilizada, o valor pode ser adicionado em um arquivo de configuração e injetado no use case via @Value e repassado ao domínio.
 - Dado que o customerId é sempre utilizado para busca das wishlists, defini esse campo como um índice no MongoDB, tendo em mente preparar o serviço para futuras necessidades de escalabilidade e melhora significativa na performance de leitura.
 ```java
 @Document(collection = "wishlists")
@@ -399,7 +400,7 @@ Os arquivos são rotacionados diariamente, com retenção máxima de 2 dias e li
 Com isso, apenas merges via Pull Requests são permitidos, e é obrigatório que o workflow valide os testes automatizados com sucesso antes de permitir a mesclagem.
 
 ### Testes
-Com Junit5 e Mockito criei testes para cobrir 100% meus casos de uso, dominios, controllers e repositorios, garantindo dessa forma que a funcionalidade está sendo executada da forma correta. Tambem criei testes integrados com testcontainer, onde validei todos os fluxos esperados de forma integrada, desde a entrada da informação via http, até a persistencia do dado no banco de dados. Para garantir que a cobertura sempre vai ser alta, adicionei o jacoco e configurei como requisito 100% de cobertura nas camadas principais. 
+Com Junit5 e Mockito criei testes para cobrir 100% meus casos de uso, dominios, controllers e repositorios, garantindo dessa forma que a funcionalidade está sendo executada da forma correta. Tambem criei testes integrados com testcontainer, onde validei todos os fluxos esperados de forma integrada, desde a entrada da informação via http, até a persistencia da informação no banco de dados. Para garantir que a cobertura sempre vai ser alta, adicionei o jacoco e configurei como requisito 100% de cobertura nas camadas principais. 
 
 ## Licença
 
